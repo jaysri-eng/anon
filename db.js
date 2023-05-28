@@ -77,7 +77,27 @@ const getP = () => {
     return Post.find().populate('name')
 }
 
-module.exports = {init, postName, getNameId, firstPost, getPosts,getNames,getP}
+const incrementLikes = (postId) => {
+  try {
+    const collection = db.collection('posts')
+    const post = db.Post.findOneAndUpdate(
+      postId,
+      { $inc: { likes: 1 } },
+      { new: true }
+    );
+
+    if (!post) {
+      throw new Error('Post not found');
+    }
+
+    return post;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+module.exports = {init, postName, getNameId, firstPost, getPosts,getNames,getP,incrementLikes}
 
 /*//controllers for routes
 let NameController = {

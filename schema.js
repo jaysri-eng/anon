@@ -14,6 +14,7 @@ const nameSchema = new mongoose.Schema({
   const postSchema = new mongoose.Schema({
     _id: Number,
     post: String,
+    likes: {type: Number,default: 0},
     name: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: "names"

@@ -4,7 +4,7 @@ const Joi = require('@hapi/joi')
 //import mongoose from 'mongoose';
 const { Schema, default: mongoose } = require('mongoose');
 
-const { postName, getNameId, firstPost, getPosts,getNames, getP} = require('./db');
+const { postName, getNameId, firstPost, getPosts,getNames, getP, incrementLikes} = require('./db');
 const { ObjectId, Db, MongoClient } = require('mongodb');
 
 // Initialize a new router instance
@@ -157,4 +157,16 @@ router.get('/getPost', (req, res) => {
     })
   })
 
+  router.post('/like',(req,res) => {
+    item = req.body
+    incrementLikes().then(() => {
+      res.status(200).end()
+    })
+    .catch((err) => {
+      // If there is any error in inserting the item, log the error and
+      // return a 500 server error status
+      console.log(err)
+      res.status(500).end()
+    })
+  })
 module.exports = router
